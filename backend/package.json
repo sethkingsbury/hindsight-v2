@@ -1,0 +1,8 @@
+{
+  "name": "hindsight",
+  "version": "0.0.1",
+  "description": "retro game app",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
