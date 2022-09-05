@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AnswerComponent from '../components/AnswerComponent';
+import RoomHeader from '../components/RoomHeader';
 import { Answer } from '../data/answer';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -68,24 +69,32 @@ function Question() {
 
 	return (
 		<div className='room-container'>
-			<div>
-				<h1>{questions[qNum].question}?</h1>
-				<form className='form' onSubmit={onSubmit}>
-					<input type='text' name='answer' value={answer} onChange={onChange} />
-					<button className='btn'>Enter</button>
-				</form>
+			<div className='room-body'>
+				<RoomHeader room={room} username='Seth' points='1000' />
+				<div className='question-box'>
+					<h2>{questions[qNum].question}?</h2>
+					<form className='form' onSubmit={onSubmit}>
+						<input
+							className='form-input'
+							type='text'
+							name='answer'
+							value={answer}
+							onChange={onChange}
+						/>
+						<button className='form-btn'>Enter</button>
+					</form>
+				</div>
 				<div className='answer-box'>
-					<ul className='answer-list'>
-						{answers
-							.filter((x) => x.qNum == qNum)
-							.map((answer) => {
-								return (
-									<AnswerComponent key={answer.answer} answer={answer.answer} />
-								);
-							})}
-					</ul>
+					{answers
+						.filter((x) => x.qNum == qNum)
+						.map((answer) => {
+							return (
+								<AnswerComponent key={answer.answer} answer={answer.answer} />
+							);
+						})}
 				</div>
 			</div>
+
 			<div className='room-footer'>
 				<button className='btn success' onClick={next}>
 					Next

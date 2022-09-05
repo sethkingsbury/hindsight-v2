@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createGameCode } from '../helpers/randomStr';
+import { FaArrowRight } from 'react-icons/fa';
 
 function CreateRoom() {
 	const [gameData, setGameData] = useState({
@@ -32,8 +33,16 @@ function CreateRoom() {
 		<div className='container'>
 			<h1>Enter your name</h1>
 			<form className='form' onSubmit={onSubmit}>
-				<input type='text' name='name' value={name} onChange={onChange} />
-				<button className='btn'>Enter</button>
+				<input
+					className='form-input'
+					type='text'
+					name='name'
+					value={name}
+					onChange={onChange}
+				/>
+				<button className='form-btn'>
+					<FaArrowRight />
+				</button>
 			</form>
 		</div>
 	);

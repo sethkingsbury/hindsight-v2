@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getQuestions } from '../data/questions';
+import RoomHeader from '../components/RoomHeader';
 // const { io } = require('socket.io-client');
 
 function Room() {
@@ -9,11 +10,6 @@ function Room() {
 	const [gameData, setGameData] = useState(location.state.gameData);
 	var { name, room, users } = gameData;
 	// const socket = io('http://localhost:5000/');
-
-	const leave = () => {
-		// socket.emit('leaveRoom', { name, room });
-		navigate('/');
-	};
 
 	const start = () => {
 		const questions = getQuestions();
@@ -50,15 +46,11 @@ function Room() {
 	return (
 		<div className='room-container'>
 			<div className='room-header'>
-				<button className='btn danger' onClick={leave}>
-					Leave Room
-				</button>
+				<RoomHeader room={room} username='Seth' points='1000' />
 			</div>
 			<div className='room-body'>
 				<div className='room-info'>
-					<p>Name: {name}</p>
-					<p>Room: {room}</p>
-					<p>Users:</p>
+					<p>Users</p>
 					<ul>
 						{users.map((user) => (
 							<li key={user}>{user}</li>
