@@ -2,24 +2,27 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getQuestions } from '../data/questions';
 import RoomHeader from '../components/RoomHeader';
-// const { io } = require('socket.io-client');
+const { io } = require('socket.io-client');
 
 function Room() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [gameData, setGameData] = useState(location.state.gameData);
 	var { name, room, users } = gameData;
-	// const socket = io('http://localhost:5000/');
+	const socket = io('http://localhost:5000/');
 
 	const start = () => {
 		const questions = getQuestions();
 		const game = {
 			room: room,
+			name: name,
+			users: users,
 			questions: questions,
 			qNum: 0,
 			answers: [],
 			answer: '',
 		};
+
 		navigate(`/question`, {
 			state: {
 				gameData: game,
@@ -28,32 +31,27 @@ function Room() {
 	};
 
 	useEffect(() => {
-		// if (!users.includes(name)) {
-		// 	socket.emit('joinRoom', { name, room });
-		// }
-		// socket.on('userJoined', (newUsers) => {
-		// 	setGameData((prevState) => ({
-		// 		...prevState,
-		// 		users: newUsers,
-		// 	}));
-		// });
-		// socket.on('userDisconnect', (userName) => {
-		// 	console.log(`${userName} has left`);
-		// });
-		// console.log(users);
-	}, []);
+		socket.emit('joinRoom', { room, name });
+
+		socket.on('userList', (users) => {
+			setGameData((prevState) => ({
+				...prevState,
+				users: users,
+			}));
+		});
+	}, [socket]);
 
 	return (
 		<div className='room-container'>
 			<div className='room-header'>
-				<RoomHeader room={room} username='Seth' points='1000' />
+				<RoomHeader room={room} username={name} points='1000' />
 			</div>
 			<div className='room-body'>
 				<div className='room-info'>
 					<p>Users</p>
 					<ul>
 						{users.map((user) => (
-							<li key={user}>{user}</li>
+							<li key={user.id}>{user.name}</li>
 						))}
 					</ul>
 				</div>

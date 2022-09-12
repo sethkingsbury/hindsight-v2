@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Draggable from 'react-draggable';
-import AnswerComponent from '../components/AnswerComponent';
+import WhiteboardItem from '../components/WhiteboardItem';
 
 function Whiteboard() {
 	const location = useLocation();
@@ -19,16 +19,17 @@ function Whiteboard() {
 
 	return (
 		<div className='room-container'>
-			<h1>Whiteboard</h1>
-			<div className='whiteboard-container'>
-				{answers.map((answer) => {
-					return <AnswerComponent key={answer.answer} answer={answer.answer} />;
-				})}
-			</div>
-			<div className='room-footer'>
-				<button className='btn success' onClick={next}>
+			<div className="room-header">
+				<h2>Categorize your answers</h2>
+			<button className='btn success' onClick={next}>
 					Next
 				</button>
+			</div>
+			
+			<div className='whiteboard-container'>
+				{answers.map((answer) => {
+					return <WhiteboardItem key={answer.answer} answer={answer.answer} />;
+				})}
 			</div>
 		</div>
 	);

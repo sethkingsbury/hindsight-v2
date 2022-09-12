@@ -15,14 +15,6 @@ function JoinRoom() {
 	const onSubmit = (e) => {
 		e.preventDefault();
 
-		// socket.emit('room-check', room);
-
-		// socket.on('room-check', (name) => {
-		// 	if (name) {
-		// 		console.log(name);
-		// 	}
-		// });
-
 		navigate(`/room`, {
 			state: {
 				gameData: gameData,

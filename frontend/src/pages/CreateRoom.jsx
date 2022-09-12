@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createGameCode } from '../helpers/randomStr';
 import { FaArrowRight } from 'react-icons/fa';
+const { io } = require('socket.io-client');
 
 function CreateRoom() {
 	const [gameData, setGameData] = useState({
@@ -11,6 +12,7 @@ function CreateRoom() {
 	});
 	const { name, room, users } = gameData;
 	const navigate = useNavigate();
+	const socket = io('http://localhost:5000/');
 
 	const onSubmit = (e) => {
 		e.preventDefault();

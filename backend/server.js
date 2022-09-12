@@ -1,20 +1,36 @@
-const PORT = 5000;
-
-const { createServer } = require('http');
+const path = require('path');
+const http = require('http');
+const express = require('express');
 const { Server } = require('socket.io');
+const { userJoin, getUser, userLeave, getUsers } = require('./utils/users');
 
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors: {
-    origin: 'http://localhost:3000',
-  },
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+	cors: {
+		origin: 'http://localhost:3000',
+	},
 });
+
+// app.use(express.static(path.join(__dirname, '../frontend/build')))
 
 io.on('connection', (socket) => {
-  socket.on('join', function (room) {
-    socket.join(room);
-    io.in('room1').emit('join', `${socket} has joined`);
-  });
+	socket.on('joinRoom', ({ room, name }) => {
+		if (!getUser(room, name)) {
+			const user = userJoin(socket.id, name, room);
+			socket.join(user.room);
+			io.to(user.room).emit('userList', getUsers(user.room));
+		}
+	});
+
+	socket.on('disconnect', () => {
+		const user = userLeave(socket.id);
+		if (user) {
+			io.to(user.room).emit('userList', getUsers(user.room));
+		}
+	});
 });
 
-httpServer.listen(PORT);
+const PORT = 5000 || process.env.PORT;
+
+server.listen(PORT, () => console.log(`Server runnning on port ${PORT}`));

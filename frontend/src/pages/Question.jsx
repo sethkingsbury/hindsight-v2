@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import AnswerComponent from '../components/AnswerComponent';
+import AnswerItem from '../components/AnswerItem';
 import RoomHeader from '../components/RoomHeader';
 import { Answer } from '../data/answer';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaArrowRight } from 'react-icons/fa';
 
 function Question() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [gameData, setGameData] = useState(location.state.gameData);
 
-	const { room, questions, qNum, answers, answer } = gameData;
+	const { room, name, users, questions, qNum, answers, answer } = gameData;
 
 	const onChange = (e) => {
 		setGameData((prevState) => ({
@@ -72,7 +73,13 @@ function Question() {
 			<div className='room-body'>
 				<RoomHeader room={room} username='Seth' points='1000' />
 				<div className='question-box'>
-					<h2>{questions[qNum].question}?</h2>
+					<div className='room-header'>
+						<h2>{questions[qNum].question}</h2>
+						<button className='btn success' onClick={next}>
+							Next
+						</button>
+					</div>
+
 					<form className='form' onSubmit={onSubmit}>
 						<input
 							className='form-input'
@@ -81,25 +88,21 @@ function Question() {
 							value={answer}
 							onChange={onChange}
 						/>
-						<button className='form-btn'>Enter</button>
+						<button className='form-btn'>
+							<FaArrowRight />
+						</button>
 					</form>
 				</div>
 				<div className='answer-box'>
 					{answers
 						.filter((x) => x.qNum == qNum)
 						.map((answer) => {
-							return (
-								<AnswerComponent key={answer.answer} answer={answer.answer} />
-							);
+							return <AnswerItem key={answer.answer} answer={answer.answer} />;
 						})}
 				</div>
 			</div>
 
-			<div className='room-footer'>
-				<button className='btn success' onClick={next}>
-					Next
-				</button>
-			</div>
+			<div className='room-footer'></div>
 		</div>
 	);
 }

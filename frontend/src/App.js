@@ -16,7 +16,7 @@ function App() {
 		<>
 			<Router>
 				<div className='app'>
-					<Header />.
+					<Header />
 					<div className='main-container'>
 						<ToastContainer />
 						<Routes>
