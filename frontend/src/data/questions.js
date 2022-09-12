@@ -2,17 +2,17 @@ import { Question } from './question';
 
 const getQuestions = () => {
 	const questionStrings = [
-		// 'What should the team continue doing?',
-		// 'What would you like to see the team do more often?',
-		// 'What would you like to see the team do less often?',
+		'What should the team continue doing?',
+		'What would you like to see the team do more often?',
+		'What would you like to see the team do less often?',
 		'What does the team need to start doing?',
 		'What does the team need to stop doing?',
 	];
 
 	const questionColors = [
-		// '#FFF9B1',
-		// '#DAF7A1',
-		// '#FF9D48',
+		'#FFF9B1',
+		'#DAF7A1',
+		'#FF9D48',
 		'#77CCC7',
 		'#B485BC',
 	];

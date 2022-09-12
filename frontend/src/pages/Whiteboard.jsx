@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WhiteboardItem from '../components/WhiteboardItem';
+import ColorKey from '../components/ColorKey';
 
 function Whiteboard() {
 	const location = useLocation();
@@ -35,6 +36,15 @@ function Whiteboard() {
 						/>
 					);
 				})}
+			</div>
+
+			<div className='whiteboard-footer'>
+				<div className='key-container'>
+					<h4>KEY</h4>
+					{questions.map((question) => {
+						return <ColorKey key={question.qNum} questionObj={question} />;
+					})}
+				</div>
 			</div>
 		</div>
 	);
