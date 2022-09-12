@@ -40,9 +40,12 @@ function Whiteboard() {
 
 			<div className='whiteboard-footer'>
 				<div className='key-container'>
-					<h4>KEY</h4>
 					{questions.map((question) => {
-						return <ColorKey key={question.qNum} questionObj={question} />;
+						return (
+							<div className='key-item'>
+								<ColorKey key={question.qNum} questionObj={question} />
+							</div>
+						);
 					})}
 				</div>
 			</div>
