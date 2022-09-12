@@ -167,7 +167,8 @@ input {
 /* Questions Styling */
 
 .answer-box {
-	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
 	text-align: center;
 }
 
@@ -209,12 +210,12 @@ input {
 	word-wrap: break-word;
 
 	color: #000;
-	background: #ffc;
-	font-size: 16px;
-	height: 100px;
-	width: 100px;
+	font-size: 14px;
+	height: 80px;
+	width: 80px;
+	margin: 5px;
 	padding: 1em;
-	box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
+	box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 
 .room-header {
@@ -226,5 +227,3 @@ input {
 	text-align: center;
 	width: 100%;
 }
-
-

@@ -27,7 +27,7 @@ function Question() {
 		let newAnswers = answers;
 
 		if (validAnswer()) {
-			const newAnswer = new Answer(qNum, 'me', answer);
+			const newAnswer = new Answer(qNum, name, answer);
 			newAnswers.push(newAnswer);
 			setGameData((prevState) => ({
 				...prevState,
@@ -43,7 +43,7 @@ function Question() {
 			toast.error('Enter an answer');
 		} else if (answer.length > 50) {
 			toast.error('Keep it brief! (50 characters)');
-		} else if (answers.includes(answer.toUpperCase())) {
+		} else if (answers.find((a) => a.answer === answer)) {
 			toast.error("You've already submitted that answer!");
 		} else {
 			valid = true;
@@ -52,8 +52,6 @@ function Question() {
 	};
 
 	const next = () => {
-		console.log(qNum + 1);
-		console.log(questions.length);
 		if (qNum + 1 >= questions.length) {
 			navigate(`/whiteboard`, {
 				state: {
@@ -97,7 +95,13 @@ function Question() {
 					{answers
 						.filter((x) => x.qNum == qNum)
 						.map((answer) => {
-							return <AnswerItem key={answer.answer} answer={answer.answer} />;
+							return (
+								<AnswerItem
+									key={answer.answer}
+									answer={answer.answer}
+									color={questions[qNum]['color']}
+								/>
+							);
 						})}
 				</div>
 			</div>

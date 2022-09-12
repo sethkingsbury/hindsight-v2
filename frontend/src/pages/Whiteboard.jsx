@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Draggable from 'react-draggable';
 import WhiteboardItem from '../components/WhiteboardItem';
 
 function Whiteboard() {
@@ -19,16 +18,22 @@ function Whiteboard() {
 
 	return (
 		<div className='room-container'>
-			<div className="room-header">
+			<div className='room-header'>
 				<h2>Categorize your answers</h2>
-			<button className='btn success' onClick={next}>
+				<button className='btn success' onClick={next}>
 					Next
 				</button>
 			</div>
-			
+
 			<div className='whiteboard-container'>
 				{answers.map((answer) => {
-					return <WhiteboardItem key={answer.answer} answer={answer.answer} />;
+					return (
+						<WhiteboardItem
+							key={answer.answer}
+							answer={answer}
+							color={questions[answer.qNum]['color']}
+						/>
+					);
 				})}
 			</div>
 		</div>

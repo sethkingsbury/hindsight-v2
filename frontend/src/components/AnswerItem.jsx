@@ -1,8 +1,14 @@
-import Draggable from 'react-draggable';
+function AnswerItem({ answer, color }) {
+	const styles = {
+		colorStyle: {
+			background: color,
+		},
+	};
 
-function AnswerItem({ answer }) {
 	return (
-		<div className='answer-container'>{answer}</div>
+		<div className='whiteboard-item' style={styles.colorStyle}>
+			{answer}
+		</div>
 	);
 }
 
