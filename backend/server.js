@@ -3,6 +3,7 @@ const http = require('http');
 const express = require('express');
 const { Server } = require('socket.io');
 const { userJoin, getUser, userLeave, getUsers } = require('./utils/users');
+const { addAnswers, getAnswers } = require('./utils/answers');
 
 const app = express();
 const server = http.createServer(app);
@@ -21,6 +22,15 @@ io.on('connection', (socket) => {
 			socket.join(user.room);
 			io.to(user.room).emit('userList', getUsers(user.room));
 		}
+	});
+
+	socket.on('submitAnswers', ({ room, answers }) => {
+		addAnswers(room, answers);
+	});
+
+	socket.on('getAnswers', ({ room }) => {
+		const answerList = getAnswers(room);
+		io.to(room).emit('answerList', answerList);
 	});
 
 	socket.on('disconnect', () => {

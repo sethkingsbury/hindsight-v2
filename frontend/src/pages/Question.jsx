@@ -6,13 +6,19 @@ import { Answer } from '../data/answer';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowRight } from 'react-icons/fa';
+const { io } = require('socket.io-client');
 
 function Question() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const [gameData, setGameData] = useState(location.state.gameData);
+	const socket = io('http://localhost:5000/');
 
 	const { room, name, users, questions, qNum, answers, answer } = gameData;
+
+	useEffect(() => {
+		socket.emit('joinRoom', { room, name });
+	}, []);
 
 	const onChange = (e) => {
 		setGameData((prevState) => ({
@@ -53,6 +59,7 @@ function Question() {
 
 	const next = () => {
 		if (qNum + 1 >= questions.length) {
+			socket.emit('submitAnswers', { room, answers });
 			navigate(`/whiteboard`, {
 				state: {
 					gameData: gameData,
