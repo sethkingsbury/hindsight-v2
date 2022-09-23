@@ -21,10 +21,12 @@ function Room() {
 	};
 
 	useEffect(() => {
+		console.log('ROOM -> join room');
 		socket.emit('joinRoom', { room, name });
 
 		socket.on('userList', (users) => {
 			setUsers(users);
+			console.log('ROOM -> user list received');
 		});
 	}, [socket, name, room]);
 
