@@ -5,13 +5,17 @@ import ColorKey from '../components/ColorKey';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
+// const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
+
 function Whiteboard() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
 	const answers = JSON.parse(localStorage.getItem('answers'));
 	const questions = getQuestions();
-	const socket = io('http://localhost:5000/');
+
+	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		if (localStorage.getItem('reload') === '0') {

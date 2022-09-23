@@ -2,13 +2,17 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const { io } = require('socket.io-client');
 
+// const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
+
 function Game() {
 	const navigate = useNavigate();
 	const [ready, setReady] = useState(false);
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
 	const answers = JSON.parse(localStorage.getItem('answers'));
-	const socket = io('http://localhost:5000/');
+
+	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		if (localStorage.getItem('reload') === '0') {
