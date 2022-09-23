@@ -8,6 +8,9 @@ import { FaArrowRight } from 'react-icons/fa';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
+// const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
+
 function Question() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
@@ -18,7 +21,7 @@ function Question() {
 	);
 	const questions = getQuestions();
 	const [answer, setAnswer] = useState('');
-	const socket = io('http://localhost:5000/');
+	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
