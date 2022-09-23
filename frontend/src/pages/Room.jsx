@@ -4,7 +4,7 @@ import RoomHeader from '../components/RoomHeader';
 const { io } = require('socket.io-client');
 
 // const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://https://hindsight.herokuapp.com/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function Room() {
 	const navigate = useNavigate();
