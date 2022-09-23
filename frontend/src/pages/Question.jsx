@@ -1,45 +1,40 @@
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AnswerItem from '../components/AnswerItem';
-import RoomHeader from '../components/RoomHeader';
 import { Answer } from '../data/answer';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaArrowRight } from 'react-icons/fa';
+import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
 function Question() {
-	const location = useLocation();
 	const navigate = useNavigate();
-	const [gameData, setGameData] = useState(location.state.gameData);
+	const room = localStorage.getItem('room');
+	const name = localStorage.getItem('name');
+	const qNum = JSON.parse(localStorage.getItem('qNum'));
+	const [answers, setAnswers] = useState(
+		JSON.parse(localStorage.getItem('answers'))
+	);
+	const [questions, setQuestions] = useState(getQuestions());
+	const [answer, setAnswer] = useState('');
 	const socket = io('http://localhost:5000/');
-
-	const { room, name, users, questions, qNum, answers, answer } = gameData;
 
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
 	}, []);
 
 	const onChange = (e) => {
-		setGameData((prevState) => ({
-			...prevState,
-			[e.target.name]: e.target.value,
-		}));
+		setAnswer(e.target.value);
 	};
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 
-		let newAnswers = answers;
-
 		if (validAnswer()) {
-			const newAnswer = new Answer(qNum, name, answer);
-			newAnswers.push(newAnswer);
-			setGameData((prevState) => ({
-				...prevState,
-				answers: newAnswers,
-				answer: '',
-			}));
+			const ansObj = new Answer(qNum, name, answer);
+			answers.push(ansObj);
+			setAnswer('');
 		}
 	};
 
@@ -58,31 +53,16 @@ function Question() {
 	};
 
 	const next = () => {
-		if (qNum + 1 >= questions.length) {
-			socket.emit('submitAnswers', { room, answers });
-			navigate(`/whiteboard`, {
-				state: {
-					gameData: gameData,
-				},
-			});
-		} else {
-			setGameData((prevState) => ({
-				...prevState,
-				qNum: qNum + 1,
-			}));
-		}
+		localStorage.setItem('answers', JSON.stringify(answers));
+		navigate(`/game`);
 	};
 
 	return (
 		<div className='room-container'>
 			<div className='room-body'>
-				<RoomHeader room={room} username='Seth' points='1000' />
 				<div className='question-box'>
 					<div className='room-header'>
-						<h2>{questions[qNum].question}</h2>
-						<button className='btn success' onClick={next}>
-							Next
-						</button>
+						<h2 className='text'>{questions[qNum].question}</h2>
 					</div>
 
 					<form className='form' onSubmit={onSubmit}>
@@ -113,7 +93,11 @@ function Question() {
 				</div>
 			</div>
 
-			<div className='room-footer'></div>
+			<div className='room-footer'>
+				<button className='btn success' onClick={next}>
+					Next
+				</button>
+			</div>
 		</div>
 	);
 }

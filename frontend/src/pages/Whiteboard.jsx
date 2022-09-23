@@ -3,54 +3,51 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import WhiteboardItem from '../components/WhiteboardItem';
 import ColorKey from '../components/ColorKey';
 import { FaRedo } from 'react-icons/fa';
+import questions, { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
 function Whiteboard() {
-	const location = useLocation();
 	const navigate = useNavigate();
-	const [gameData, setGameData] = useState(location.state.gameData);
-	const { room, name, users, questions, qNum, answers, answer } = gameData;
+	const room = localStorage.getItem('room');
+	const name = localStorage.getItem('name');
+	const [answers, setAnswers] = useState(
+		JSON.parse(localStorage.getItem('answers'))
+	);
+	const [questions, setQuestions] = useState(getQuestions());
 	const socket = io('http://localhost:5000/');
 
 	useEffect(() => {
+		if (localStorage.getItem('reload') == '0') {
+			localStorage.setItem('reload', '1');
+			window.location.reload();
+		}
+
+		console.log(answers);
+
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
 	}, []);
 
 	useEffect(() => {
 		socket.on('answerList', (answerList) => {
-			setGameData((prevState) => ({
-				...prevState,
-				answers: answerList,
-			}));
+			console.log(answerList);
 		});
 	}, [socket]);
 
 	const next = () => {
-		navigate(`/actionItems`, {
-			state: {
-				gameData: gameData,
-			},
-		});
-	};
-
-	const refreshPage = () => {
-		window.location.reload(false);
+		navigate(`/actionItems`);
 	};
 
 	return (
 		<div className='room-container'>
 			<div className='room-header'>
-				<h2>Categorize your answers</h2>
+				<h2 className='text'>Categorize your answers</h2>
 				<button className='btn success' onClick={next}>
 					Next
 				</button>
 			</div>
 
 			<div className='whiteboard-container'>
-				<button className='refresh-whiteboard' onClick={refreshPage}>
-					<FaRedo />
-				</button>
 				{answers.map((answer) => {
 					return (
 						<WhiteboardItem

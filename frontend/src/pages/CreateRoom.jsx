@@ -2,26 +2,22 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createGameCode } from '../helpers/randomStr';
 import { FaArrowRight } from 'react-icons/fa';
-const { io } = require('socket.io-client');
 
 function CreateRoom() {
 	const [gameData, setGameData] = useState({
 		name: '',
 		room: createGameCode(),
-		users: [],
 	});
-	const { name, room, users } = gameData;
+
+	const { name, room } = gameData;
 	const navigate = useNavigate();
-	const socket = io('http://localhost:5000/');
 
 	const onSubmit = (e) => {
 		e.preventDefault();
 
-		navigate(`/room`, {
-			state: {
-				gameData: gameData,
-			},
-		});
+		localStorage.setItem('name', name);
+		localStorage.setItem('room', room);
+		navigate(`/room`);
 	};
 
 	const onChange = (e) => {
@@ -33,7 +29,7 @@ function CreateRoom() {
 
 	return (
 		<div className='container'>
-			<h1>Enter your name</h1>
+			<h1 className='text'>Enter your name</h1>
 			<form className='form' onSubmit={onSubmit}>
 				<input
 					className='form-input'
@@ -41,6 +37,7 @@ function CreateRoom() {
 					name='name'
 					value={name}
 					onChange={onChange}
+					required
 				/>
 				<button className='form-btn'>
 					<FaArrowRight />

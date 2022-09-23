@@ -1,20 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const { io } = require('socket.io-client');
 
 function JoinRoom() {
+	const navigate = useNavigate();
 	const [gameData, setGameData] = useState({
 		name: '',
 		room: '',
-		users: [],
 	});
-	const { name, room, users } = gameData;
-	const navigate = useNavigate();
-	const socket = io('http://localhost:5000/');
+
+	const { name, room } = gameData;
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-
 		navigate(`/room`, {
 			state: {
 				gameData: gameData,
@@ -39,6 +36,7 @@ function JoinRoom() {
 					value={name}
 					placeholder='Your name...'
 					onChange={onChange}
+					required
 				/>
 				<input
 					type='text'
@@ -46,6 +44,7 @@ function JoinRoom() {
 					value={room}
 					placeholder='Retro code...'
 					onChange={onChange}
+					required
 				/>
 				<button className='btn'>Enter</button>
 			</form>

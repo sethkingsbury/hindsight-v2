@@ -4,10 +4,10 @@ function RoomHeader({ room, username, points }) {
 	return (
 		<div className='room-header'>
 			<div className='room-details'>
-				<p>Room: {room}</p>
-				<p>Name: {username}</p>
+				<p className='text'>Room: {room}</p>
+				<p className='text'>Name: {username}</p>
 			</div>
-			<p>Points: {points}</p>
+			<p className='text'>Points: {points}</p>
 		</div>
 	);
 }

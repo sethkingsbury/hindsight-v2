@@ -10,6 +10,7 @@ import Question from './pages/Question';
 import Whiteboard from './pages/Whiteboard';
 import ActionItems from './pages/ActionItems';
 import Summary from './pages/Summary';
+import Game from './pages/Game';
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 							<Route path='/create' element={<CreateRoom />} />
 							<Route path='/join' element={<JoinRoom />} />
 							<Route path='/room' element={<Room />} />
+							<Route path='/game' element={<Game />} />
 							<Route path='/question' element={<Question />} />
 							<Route path='/whiteboard' element={<Whiteboard />} />
 							<Route path='/actionitems' element={<ActionItems />} />

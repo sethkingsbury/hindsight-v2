@@ -7,54 +7,36 @@ const { io } = require('socket.io-client');
 function Room() {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const [gameData, setGameData] = useState(location.state.gameData);
-	var { name, room, users } = gameData;
+	const room = localStorage.getItem('room');
+	const name = localStorage.getItem('name');
+	const [users, setUsers] = useState([]);
 	const socket = io('http://localhost:5000/');
 
 	const start = () => {
-		const questions = getQuestions();
-		const game = {
-			room: room,
-			name: name,
-			users: users,
-			questions: questions,
-			qNum: 0,
-			answers: [],
-			answer: '',
-		};
-
-		navigate(`/question`, {
-			state: {
-				gameData: game,
-			},
-		});
+		localStorage.setItem('answers', JSON.stringify([]));
+		localStorage.setItem('reload', '0');
+		navigate(`/game`);
 	};
 
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
 
 		socket.on('userList', (users) => {
-			setGameData((prevState) => ({
-				...prevState,
-				users: users,
-			}));
+			setUsers(users);
 		});
 	}, [socket]);
 
 	return (
 		<div className='room-container'>
 			<div className='room-header'>
-				<RoomHeader room={room} username={name} points='1000' />
+				<RoomHeader room={room} username={name} points='0' />
 			</div>
 			<div className='room-body'>
-				<div className='room-info'>
-					<p>Users</p>
-					<ul>
-						{users.map((user) => (
-							<li key={user.id}>{user.name}</li>
-						))}
-					</ul>
-				</div>
+				{users.map((user) => (
+					<div className='user' key={user.id}>
+						{user.name}
+					</div>
+				))}
 			</div>
 			<div className='room-footer'>
 				<button className='btn success' onClick={start}>

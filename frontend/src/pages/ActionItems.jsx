@@ -3,18 +3,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 function ActionItems() {
 	const navigate = useNavigate();
-	const location = useLocation();
-	const [gameData, setGameData] = useState(location.state.gameData);
+
 	const next = () => {
-		navigate(`/summary`, {
-			state: {
-				gameData: gameData,
-			},
-		});
+		navigate(`/summary`);
 	};
+
 	return (
 		<div className='room-container'>
-			<h1>Action Items</h1>
+			<h1 className='text'>Action Items</h1>
 			<div className='room-footer'>
 				<button className='btn success' onClick={next}>
 					Next
