@@ -3,27 +3,23 @@ import { useNavigate } from 'react-router-dom';
 
 function JoinRoom() {
 	const navigate = useNavigate();
-	const [gameData, setGameData] = useState({
-		name: '',
-		room: '',
-	});
-
-	const { name, room } = gameData;
+	const [name, setName] = useState('');
+	const [room, setRoom] = useState('');
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		navigate(`/room`, {
-			state: {
-				gameData: gameData,
-			},
-		});
+
+		localStorage.setItem('name', name);
+		localStorage.setItem('room', room);
+		navigate(`/room`);
 	};
 
-	const onChange = (e) => {
-		setGameData((prevState) => ({
-			...prevState,
-			[e.target.name]: e.target.value,
-		}));
+	const nameChange = (e) => {
+		setName(e.target.value);
+	};
+
+	const roomChange = (e) => {
+		setRoom(e.target.value);
 	};
 
 	return (
@@ -35,7 +31,7 @@ function JoinRoom() {
 					name='name'
 					value={name}
 					placeholder='Your name...'
-					onChange={onChange}
+					onChange={nameChange}
 					required
 				/>
 				<input
@@ -43,7 +39,7 @@ function JoinRoom() {
 					name='room'
 					value={room}
 					placeholder='Retro code...'
-					onChange={onChange}
+					onChange={roomChange}
 					required
 				/>
 				<button className='btn'>Enter</button>
