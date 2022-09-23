@@ -25,6 +25,7 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ room, name }) => {
+		console.log(`${name} joining room: ${room}`);
 		if (!getUser(room, name)) {
 			const user = userJoin(socket.id, name, room);
 			socket.join(user.room);
@@ -37,6 +38,7 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('getAnswers', ({ room }) => {
+		console.log('Getting Answers');
 		const answerList = getAnswers(room);
 		io.to(room).emit('answerList', answerList);
 	});

@@ -18,12 +18,11 @@ function Whiteboard() {
 	const socket = io(ENDPOINT);
 
 	useEffect(() => {
+		console.log('loading page');
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
-
-		console.log(answers);
 
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
