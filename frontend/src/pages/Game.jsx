@@ -16,6 +16,10 @@ function Game() {
 
 	useEffect(() => {
 		console.log('GAME -> reload');
+		if (localStorage.getItem('reload') === '0') {
+			localStorage.setItem('reload', '1');
+			window.location.reload();
+		}
 
 		console.log('GAME -> join room');
 		socket.emit('joinRoom', { room, name });

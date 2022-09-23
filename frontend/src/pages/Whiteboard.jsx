@@ -19,10 +19,10 @@ function Whiteboard() {
 
 	useEffect(() => {
 		console.log('WHITEBOARD -> reload');
-		// if (localStorage.getItem('reload') === '0') {
-		// 	localStorage.setItem('reload', '1');
-		// 	window.location.reload();
-		// }
+		if (localStorage.getItem('reload') === '0') {
+			localStorage.setItem('reload', '1');
+			window.location.reload();
+		}
 
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
