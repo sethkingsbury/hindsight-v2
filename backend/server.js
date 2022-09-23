@@ -1,7 +1,9 @@
 const path = require('path');
 const http = require('http');
 const express = require('express');
+require('dotenv').config();
 const { Server } = require('socket.io');
+const PORT = process.env.PORT || 5000;
 const {
 	userJoin,
 	getUser,
@@ -54,6 +56,17 @@ io.on('connection', (socket) => {
 	});
 });
 
-const PORT = 5000 || process.env.PORT;
+// Serve Frontend
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+	app.get('*', (req, res) =>
+		res.sendFile(__dirname, '../', 'frontend', 'build', 'index.html')
+	);
+} else {
+	app.get('/', (req, res) => {
+		res.status(200).json({ message: 'Welcome to Hindsight' });
+	});
+}
 
 server.listen(PORT, () => console.log(`Server runnning on port ${PORT}`));

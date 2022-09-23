@@ -11,7 +11,7 @@ function Game() {
 	const socket = io('http://localhost:5000/');
 
 	useEffect(() => {
-		if (localStorage.getItem('reload') == '0') {
+		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
@@ -23,7 +23,7 @@ function Game() {
 			socket.emit('submitAnswers', { room, answers });
 			navigate(`/whiteboard`);
 		});
-	}, [socket]);
+	}, [socket, navigate, room, name, answers]);
 
 	const submit = (qNum) => {
 		localStorage.setItem('qNum', JSON.stringify(qNum));

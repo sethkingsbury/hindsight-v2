@@ -16,13 +16,13 @@ function Question() {
 	const [answers, setAnswers] = useState(
 		JSON.parse(localStorage.getItem('answers'))
 	);
-	const [questions, setQuestions] = useState(getQuestions());
+	const questions = getQuestions();
 	const [answer, setAnswer] = useState('');
 	const socket = io('http://localhost:5000/');
 
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
-	}, []);
+	}, [socket, room, name]);
 
 	const onChange = (e) => {
 		setAnswer(e.target.value);
@@ -32,8 +32,10 @@ function Question() {
 		e.preventDefault();
 
 		if (validAnswer()) {
-			const ansObj = new Answer(qNum, name, answer);
-			answers.push(ansObj);
+			var newAnswers = answers;
+			const newAnswer = new Answer(qNum, name, answer);
+			newAnswers.push(newAnswer);
+			setAnswers(newAnswers);
 			setAnswer('');
 		}
 	};
@@ -80,7 +82,7 @@ function Question() {
 				</div>
 				<div className='answer-box'>
 					{answers
-						.filter((x) => x.qNum == qNum)
+						.filter((x) => x.qNum === qNum)
 						.map((answer) => {
 							return (
 								<AnswerItem

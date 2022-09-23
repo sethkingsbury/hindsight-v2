@@ -1,23 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import WhiteboardItem from '../components/WhiteboardItem';
 import ColorKey from '../components/ColorKey';
-import { FaRedo } from 'react-icons/fa';
-import questions, { getQuestions } from '../data/questions';
+import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
 function Whiteboard() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
-	const [answers, setAnswers] = useState(
-		JSON.parse(localStorage.getItem('answers'))
-	);
-	const [questions, setQuestions] = useState(getQuestions());
+	const answers = JSON.parse(localStorage.getItem('answers'));
+	const questions = getQuestions();
 	const socket = io('http://localhost:5000/');
 
 	useEffect(() => {
-		if (localStorage.getItem('reload') == '0') {
+		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
@@ -26,13 +23,11 @@ function Whiteboard() {
 
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
-	}, []);
 
-	useEffect(() => {
 		socket.on('answerList', (answerList) => {
 			console.log(answerList);
 		});
-	}, [socket]);
+	}, [socket, name, room, answers]);
 
 	const next = () => {
 		navigate(`/actionItems`);

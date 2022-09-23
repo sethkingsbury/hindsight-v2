@@ -1,5 +1,5 @@
 function colorKey({ questionObj }) {
-	const { qNum, question, color } = questionObj;
+	const { question, color } = questionObj;
 
 	const styles = {
 		colorStyle: {

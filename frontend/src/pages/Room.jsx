@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getQuestions } from '../data/questions';
+import { useNavigate } from 'react-router-dom';
 import RoomHeader from '../components/RoomHeader';
 const { io } = require('socket.io-client');
 
 function Room() {
-	const location = useLocation();
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
@@ -24,7 +22,7 @@ function Room() {
 		socket.on('userList', (users) => {
 			setUsers(users);
 		});
-	}, [socket]);
+	}, [socket, name, room]);
 
 	return (
 		<div className='room-container'>
