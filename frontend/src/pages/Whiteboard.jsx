@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WhiteboardItem from '../components/WhiteboardItem';
 import ColorKey from '../components/ColorKey';
@@ -12,13 +12,14 @@ function Whiteboard() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
-	const answers = JSON.parse(localStorage.getItem('answers'));
+	const [answers, setAnswers] = useState(
+		JSON.parse(localStorage.getItem('answers'))
+	);
 	const questions = getQuestions();
 
 	const socket = io(ENDPOINT);
 
 	useEffect(() => {
-		console.log('WHITEBOARD -> reload');
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
@@ -26,11 +27,14 @@ function Whiteboard() {
 
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
+	}, []);
 
+	useEffect(() => {
 		socket.on('answerList', (answerList) => {
 			console.log(answerList);
+			setAnswers(answerList);
 		});
-	}, [socket, name, room, answers]);
+	}, [socket, name, room]);
 
 	const next = () => {
 		navigate(`/actionItems`);

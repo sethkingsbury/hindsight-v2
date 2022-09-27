@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 const { io } = require('socket.io-client');
 
 // const ENDPOINT = 'http://localhost:5000/';
@@ -15,18 +18,15 @@ function Game() {
 	const socket = io(ENDPOINT);
 
 	useEffect(() => {
-		console.log('GAME -> reload');
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
 
-		console.log('GAME -> join room');
 		socket.emit('joinRoom', { room, name });
 
 		socket.on('toWhiteboard', () => {
 			localStorage.setItem('reload', '0');
-			socket.emit('submitAnswers', { room, answers });
 			navigate(`/whiteboard`);
 		});
 	}, [socket, navigate, room, name, answers]);
@@ -36,16 +36,35 @@ function Game() {
 		navigate(`/question`);
 	};
 
-	const toggleReady = () => {
-		socket.emit('ready', { room, name });
-		if (ready) {
-			setReady(false);
-		} else {
-			setReady(true);
-		}
+	const submitAnswers = () => {
+		setReady(true);
+		const randomTimeout = Math.random() * 1000;
+		setTimeout(() => {
+			socket.emit('submitAnswers', { room, answers });
+			socket.emit('ready', { room, name });
+		}, randomTimeout);
 	};
 
-	return (
+	const toggleReady = () => {
+		confirmAlert({
+			title: 'Submit Answers',
+			message: "Are you sure you've finished answering all the questions?",
+			buttons: [
+				{
+					label: 'Yes',
+					onClick: () => submitAnswers(),
+				},
+				{
+					label: 'No',
+					onClick: () => null,
+				},
+			],
+		});
+	};
+
+	return ready ? (
+		<h1 className='text'>waiting for other nerds</h1>
+	) : (
 		<div className='game-container'>
 			<div className='star-container'></div>
 			<button className='btn game-btn star-1' onClick={() => submit(0)}>
