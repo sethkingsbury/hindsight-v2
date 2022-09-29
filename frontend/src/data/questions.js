@@ -9,6 +9,8 @@ const getQuestions = () => {
 		'What does the team need to stop doing?',
 	];
 
+	const questionShort = ['Start?', 'More?', 'Continue?', 'Less?', 'Stop?'];
+
 	const questionColors = [
 		'#FFF9B1',
 		'#DAF7A1',
@@ -19,7 +21,9 @@ const getQuestions = () => {
 
 	let questions = [];
 	for (let i = 0; i < questionStrings.length; i++) {
-		questions.push(new Question(i, questionStrings[i], questionColors[i]));
+		questions.push(
+			new Question(i, questionStrings[i], questionShort[i], questionColors[i])
+		);
 	}
 	return questions;
 };

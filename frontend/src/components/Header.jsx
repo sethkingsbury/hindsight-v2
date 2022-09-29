@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 
 function Header() {
 	return (
-		<div className='header'>
-			<Link className='link' to='/'>
-				<h3 className='text'>Hindsight</h3>
-			</Link>
+		<div className='header-container'>
+			<div className='header'>
+				<Link className='link' to='/'>
+					<h1 className='text'>Hindsight</h1>
+				</Link>
+			</div>
 		</div>
 	);
 }

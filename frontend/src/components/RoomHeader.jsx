@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function RoomHeader({ room, username, points }) {
 	return (

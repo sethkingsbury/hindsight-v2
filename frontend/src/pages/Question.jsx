@@ -8,14 +8,17 @@ import { FaArrowRight } from 'react-icons/fa';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function Question() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
 	const qNum = JSON.parse(localStorage.getItem('qNum'));
+	const [points, setPoints] = useState(
+		JSON.parse(localStorage.getItem('answers'))
+	);
 	const [answers, setAnswers] = useState(
 		JSON.parse(localStorage.getItem('answers'))
 	);
@@ -38,6 +41,7 @@ function Question() {
 			var newAnswers = answers;
 			const newAnswer = new Answer(qNum, name, answer);
 			newAnswers.push(newAnswer);
+			localStorage.setItem('answers', JSON.stringify(newAnswers));
 			setAnswers(newAnswers);
 			setAnswer('');
 		}
@@ -63,22 +67,22 @@ function Question() {
 	};
 
 	return (
-		<div className='room-container'>
+		<div className='container'>
 			<div className='room-body'>
 				<div className='question-box'>
 					<div className='room-header'>
-						<h2 className='text'>{questions[qNum].question}</h2>
+						<h1 className='text prompt'>{questions[qNum].question}</h1>
 					</div>
 
-					<form className='form' onSubmit={onSubmit}>
+					<form className='q-form' onSubmit={onSubmit}>
 						<input
-							className='form-input'
+							className='q-form-in'
 							type='text'
 							name='answer'
 							value={answer}
 							onChange={onChange}
 						/>
-						<button className='form-btn'>
+						<button className='btn-form-sm'>
 							<FaArrowRight />
 						</button>
 					</form>
@@ -98,7 +102,7 @@ function Question() {
 				</div>
 			</div>
 
-			<div className='room-footer'>
+			<div className='footer'>
 				<button className='btn success' onClick={next}>
 					Next
 				</button>

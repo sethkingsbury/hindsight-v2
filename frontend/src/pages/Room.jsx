@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import RoomHeader from '../components/RoomHeader';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'localhost:5000';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function Room() {
 	const navigate = useNavigate();
@@ -29,18 +29,18 @@ function Room() {
 	}, [socket, name, room]);
 
 	return (
-		<div className='room-container'>
-			<div className='room-header'>
+		<div className='container'>
+			<div className='header'>
 				<RoomHeader room={room} username={name} points='0' />
 			</div>
-			<div className='room-body'>
+			<div className='user-container'>
 				{users.map((user) => (
 					<div className='user' key={user.id}>
 						{user.name}
 					</div>
 				))}
 			</div>
-			<div className='room-footer'>
+			<div className='footer'>
 				<button className='btn success' onClick={start}>
 					Start Retro
 				</button>

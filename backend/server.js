@@ -25,8 +25,6 @@ const io = new Server(server, {
 	},
 });
 
-// app.use(express.static(path.join(__dirname, '../frontend/build')))
-
 io.on('connection', (socket) => {
 	socket.on('joinRoom', ({ room, name }) => {
 		if (!getUser(room, name)) {

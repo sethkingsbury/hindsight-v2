@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-// import { createGameCode } from '../helpers/randomStr';
 
 function Home() {
 	const navigate = useNavigate();
@@ -14,7 +13,7 @@ function Home() {
 
 	return (
 		<div className='container'>
-			<h1 className='text'>Welcome</h1>
+			<h1 className='text title'>Welcome to Hindsight</h1>
 			<div className='form'>
 				<button className='btn' onClick={create}>
 					Create Retro

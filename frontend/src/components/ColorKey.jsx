@@ -1,5 +1,5 @@
 function colorKey({ questionObj }) {
-	const { question, color } = questionObj;
+	const { short, color } = questionObj;
 
 	const styles = {
 		colorStyle: {
@@ -10,7 +10,7 @@ function colorKey({ questionObj }) {
 	return (
 		<div className='color-key'>
 			<div className='color-box' style={styles.colorStyle}></div>
-			{question}
+			{short}
 		</div>
 	);
 }

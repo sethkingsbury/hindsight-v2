@@ -24,9 +24,10 @@ function JoinRoom() {
 
 	return (
 		<div className='container'>
-			<h1>Enter retro code</h1>
+			<h1 className='text prompt'>Enter retro code</h1>
 			<form className='form' onSubmit={onSubmit}>
 				<input
+					className='form-input'
 					type='text'
 					name='name'
 					value={name}
@@ -35,6 +36,7 @@ function JoinRoom() {
 					required
 				/>
 				<input
+					className='form-input'
 					type='text'
 					name='room'
 					value={room}

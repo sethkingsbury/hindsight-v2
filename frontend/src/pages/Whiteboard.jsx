@@ -5,8 +5,8 @@ import ColorKey from '../components/ColorKey';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function Whiteboard() {
 	const navigate = useNavigate();
@@ -31,8 +31,8 @@ function Whiteboard() {
 
 	useEffect(() => {
 		socket.on('answerList', (answerList) => {
-			console.log(answerList);
 			setAnswers(answerList);
+			localStorage.setItem('answers', JSON.stringify([]));
 		});
 	}, [socket, name, room]);
 
@@ -41,28 +41,24 @@ function Whiteboard() {
 	};
 
 	return (
-		<div className='room-container'>
-			<div className='room-header'>
+		<div className='container'>
+			<div className='header'>
 				<h2 className='text'>Categorize your answers</h2>
-				<button className='btn success' onClick={next}>
-					Next
-				</button>
 			</div>
-
 			<div className='whiteboard-container'>
-				{answers.map((answer) => {
-					return (
-						<WhiteboardItem
-							key={answer.answer}
-							answer={answer}
-							color={questions[answer.qNum]['color']}
-						/>
-					);
-				})}
-			</div>
-
-			<div className='whiteboard-footer'>
+				<div className='whiteboard'>
+					{answers.map((answer) => {
+						return (
+							<WhiteboardItem
+								key={answer.answer}
+								answer={answer}
+								color={questions[answer.qNum]['color']}
+							/>
+						);
+					})}
+				</div>
 				<div className='key-container'>
+					<h3>Key</h3>
 					{questions.map((question) => {
 						return (
 							<div className='key-item' key={question.qNum}>
@@ -71,6 +67,11 @@ function Whiteboard() {
 						);
 					})}
 				</div>
+			</div>
+			<div className='footer'>
+				<button className='btn success' onClick={next}>
+					Next
+				</button>
 			</div>
 		</div>
 	);

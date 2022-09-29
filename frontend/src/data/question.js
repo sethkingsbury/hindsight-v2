@@ -1,10 +1,8 @@
 class Question {
-	qNum;
-	question;
-
-	constructor(qNum, question, color) {
+	constructor(qNum, question, short, color) {
 		this.qNum = qNum;
 		this.question = question;
+		this.short = short;
 		this.color = color;
 	}
 }
