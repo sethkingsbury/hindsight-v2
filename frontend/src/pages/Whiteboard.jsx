@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import WhiteboardItem from '../components/WhiteboardItem';
+import Draggable from 'react-draggable';
 import ColorKey from '../components/ColorKey';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
@@ -34,10 +34,53 @@ function Whiteboard() {
 			setAnswers(answerList);
 			localStorage.setItem('answers', JSON.stringify([]));
 		});
+
+		socket.on('updateAnswers', (newAnswers) => {
+			setAnswers(newAnswers);
+			window.location.reload();
+		});
+
+		socket.on('positionUpdate', ({ answerId, position }) => {
+			positionUpdateHandler(answerId, position);
+		});
 	}, [socket, name, room]);
 
 	const next = () => {
 		navigate(`/actionItems`);
+	};
+
+	// Whiteboard item Tracking
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+
+	const handleDrag = (e, ui) => {
+		const { x, y } = position;
+		setPosition({
+			x: x + ui.deltaX,
+			y: y + ui.deltaY,
+		});
+	};
+
+	const handleDrop = (e, ui) => {
+		const payload = {
+			room: room,
+			answerId: ui.node.id,
+			position: {
+				x: ui.x,
+				y: ui.y,
+			},
+		};
+		socket.emit('movedAnswer', payload);
+	};
+
+	const positionUpdateHandler = (answerId, position) => {
+		console.log('update position');
+		console.log(position);
+	};
+
+	const cardColor = (color) => {
+		return {
+			background: color,
+		};
 	};
 
 	return (
@@ -45,31 +88,45 @@ function Whiteboard() {
 			<div className='header'>
 				<h2 className='text'>Categorize your answers</h2>
 			</div>
-			<div className='whiteboard-container'>
-				<div className='whiteboard'>
-					{answers.map((answer) => {
-						return (
-							<WhiteboardItem
-								key={answer.answer}
-								answer={answer}
-								color={questions[answer.qNum]['color']}
-							/>
-						);
-					})}
-				</div>
-				<div className='key-container'>
-					<h3>Key</h3>
-					{questions.map((question) => {
-						return (
-							<div className='key-item' key={question.qNum}>
-								<ColorKey questionObj={question} />
-							</div>
-						);
-					})}
+			<div className='body'>
+				<div className='whiteboard-container'>
+					<div className='whiteboard'>
+						{answers.map((answer) => {
+							return (
+								<Draggable
+									key={answer['id']}
+									axis='both'
+									bounds='parent'
+									defaultPosition={answer.position}
+									onDrag={handleDrag}
+									onStop={handleDrop}
+								>
+									<div
+										id={answer['id']}
+										className='whiteboard-item'
+										style={cardColor(questions[answer.qNum]['color'])}
+									>
+										{answer.answer}
+									</div>
+								</Draggable>
+							);
+						})}
+					</div>
+					<div className='key-container'>
+						<h3>Key</h3>
+						{questions.map((question) => {
+							return (
+								<div className='key-item' key={question.qNum}>
+									<ColorKey questionObj={question} />
+								</div>
+							);
+						})}
+					</div>
 				</div>
 			</div>
 			<div className='footer'>
-				<button className='btn success' onClick={next}>
+				<button className='btn btn-sm'>New Action Item</button>
+				<button className='btn btn-sm' onClick={next}>
 					Next
 				</button>
 			</div>

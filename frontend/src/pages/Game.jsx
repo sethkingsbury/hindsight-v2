@@ -62,36 +62,33 @@ function Game() {
 		});
 	};
 
-	return ready ? (
-		<h1 className='text'>Waiting on team members</h1>
-	) : (
-		<div className='game-container'>
-			<div className='star-container'></div>
-			<button className='btn game-btn star-1' onClick={() => submit(0)}>
-				Start
-			</button>
-			<button className='btn game-btn star-2' onClick={() => submit(1)}>
-				More of
-			</button>
-			<button className='btn game-btn star-3' onClick={() => submit(2)}>
-				Continue
-			</button>
-			<button className='btn game-btn star-4' onClick={() => submit(3)}>
-				Less of
-			</button>
-			<button className='btn game-btn star-5' onClick={() => submit(4)}>
-				Stop
-			</button>
-			<button
-				className={
-					ready
-						? 'btn game-btn ready-btn success'
-						: 'btn game-btn ready-btn danger'
-				}
-				onClick={toggleReady}
-			>
-				{ready ? 'Ready' : 'Unready'}
-			</button>
+	return (
+		<div className='container'>
+			<div className='header'>header</div>
+			<div className='body'>
+				<div className='game-container'>
+					<button className='btn game-btn star-1' onClick={() => submit(0)}>
+						Start
+					</button>
+					<button className='btn game-btn star-2' onClick={() => submit(1)}>
+						More of
+					</button>
+					<button className='btn game-btn star-3' onClick={() => submit(2)}>
+						Continue
+					</button>
+					<button className='btn game-btn star-4' onClick={() => submit(3)}>
+						Less of
+					</button>
+					<button className='btn game-btn star-5' onClick={() => submit(4)}>
+						Stop
+					</button>
+				</div>
+			</div>
+			<div className='footer'>
+				<button className='btn btn-sm' onClick={toggleReady}>
+					Ready
+				</button>
+			</div>
 		</div>
 	);
 }

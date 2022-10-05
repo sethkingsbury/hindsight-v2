@@ -12,7 +12,7 @@ const {
 	getUsers,
 	readyUser,
 } = require('./utils/users');
-const { addAnswers, getAnswers } = require('./utils/answers');
+const { addAnswers, getAnswers, updatePosition } = require('./utils/answers');
 
 const app = express();
 app.use(cors());
@@ -48,6 +48,11 @@ io.on('connection', (socket) => {
 		if (allReady) {
 			io.to(room).emit('toWhiteboard');
 		}
+	});
+
+	socket.on('movedAnswer', ({ room, answerId, position }) => {
+		const newAnswers = updatePosition(room, answerId, position);
+		io.to(room).emit('updateAnswers', { newAnswers });
 	});
 
 	socket.on('disconnect', () => {

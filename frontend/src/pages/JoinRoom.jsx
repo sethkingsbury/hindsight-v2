@@ -24,28 +24,31 @@ function JoinRoom() {
 
 	return (
 		<div className='container'>
-			<h1 className='text prompt'>Enter retro code</h1>
-			<form className='form' onSubmit={onSubmit}>
-				<input
-					className='form-input'
-					type='text'
-					name='name'
-					value={name}
-					placeholder='Your name...'
-					onChange={nameChange}
-					required
-				/>
-				<input
-					className='form-input'
-					type='text'
-					name='room'
-					value={room}
-					placeholder='Retro code...'
-					onChange={roomChange}
-					required
-				/>
-				<button className='btn'>Enter</button>
-			</form>
+			<div className='header'></div>
+			<div className='body'>
+				<h1 className='text prompt'>Enter retro code</h1>
+				<form className='form' onSubmit={onSubmit}>
+					<input
+						className='input-md'
+						type='text'
+						name='name'
+						value={name}
+						placeholder='Your name...'
+						onChange={nameChange}
+						required
+					/>
+					<input
+						className='input-md'
+						type='text'
+						name='room'
+						value={room}
+						placeholder='Retro code...'
+						onChange={roomChange}
+						required
+					/>
+					<button className='btn btn-md'>Enter</button>
+				</form>
+			</div>
 		</div>
 	);
 }

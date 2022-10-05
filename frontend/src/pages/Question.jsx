@@ -68,7 +68,8 @@ function Question() {
 
 	return (
 		<div className='container'>
-			<div className='room-body'>
+			<div className='header'>Header</div>
+			<div className='body'>
 				<div className='question-box'>
 					<div className='room-header'>
 						<h1 className='text prompt'>{questions[qNum].question}</h1>
@@ -103,7 +104,7 @@ function Question() {
 			</div>
 
 			<div className='footer'>
-				<button className='btn success' onClick={next}>
+				<button className='btn btn-sm' onClick={next}>
 					Next
 				</button>
 			</div>

@@ -29,19 +29,22 @@ function CreateRoom() {
 
 	return (
 		<div className='container'>
-			<h1 className='text prompt'>Enter your name</h1>
-			<form className='form' onSubmit={onSubmit}>
-				<input
-					className='form-input'
-					placeholder='Your name...'
-					type='text'
-					name='name'
-					value={name}
-					onChange={onChange}
-					required
-				/>
-				<button className='btn btn-form'>Go</button>
-			</form>
+			<div className='header'></div>
+			<div className='body'>
+				<h1 className='text prompt'>Enter your name</h1>
+				<form className='form' onSubmit={onSubmit}>
+					<input
+						className='input-md'
+						placeholder='Your name...'
+						type='text'
+						name='name'
+						value={name}
+						onChange={onChange}
+						required
+					/>
+					<button className='btn btn-md'>Go</button>
+				</form>
+			</div>
 		</div>
 	);
 }

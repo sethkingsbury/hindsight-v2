@@ -14,12 +14,6 @@ function Room() {
 
 	const socket = io(ENDPOINT);
 
-	const start = () => {
-		localStorage.setItem('answers', JSON.stringify([]));
-		localStorage.setItem('reload', '0');
-		navigate(`/game`);
-	};
-
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
 
@@ -28,20 +22,28 @@ function Room() {
 		});
 	}, [socket, name, room]);
 
+	const start = () => {
+		localStorage.setItem('answers', JSON.stringify([]));
+		localStorage.setItem('reload', '0');
+		navigate(`/game`);
+	};
+
 	return (
 		<div className='container'>
 			<div className='header'>
 				<RoomHeader room={room} username={name} points='0' />
 			</div>
-			<div className='user-container'>
-				{users.map((user) => (
-					<div className='user' key={user.id}>
-						{user.name}
-					</div>
-				))}
+			<div className='body'>
+				<div className='user-container'>
+					{users.map((user) => (
+						<div className='user' key={user.id}>
+							{user.name}
+						</div>
+					))}
+				</div>
 			</div>
 			<div className='footer'>
-				<button className='btn success' onClick={start}>
+				<button className='btn btn-sm' onClick={start}>
 					Start Retro
 				</button>
 			</div>

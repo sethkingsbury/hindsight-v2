@@ -1,6 +1,8 @@
-import Draggable from 'react-draggable';
+import { useState } from 'react';
 
 function WhiteboardItem({ answer, color }) {
+	const room = localStorage.getItem('room');
+
 	const styles = {
 		colorStyle: {
 			background: color,
@@ -8,11 +10,9 @@ function WhiteboardItem({ answer, color }) {
 	};
 
 	return (
-		<Draggable axis='both' bounds='parent'>
-			<div className='whiteboard-item' style={styles.colorStyle}>
-				{answer.answer}
-			</div>
-		</Draggable>
+		<div className='whiteboard-item' style={styles.colorStyle}>
+			{answer.answer}
+		</div>
 	);
 }
 

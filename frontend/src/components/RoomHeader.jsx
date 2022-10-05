@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 
 function RoomHeader({ room, username, points }) {
 	return (
-		<div className='room-header'>
-			<div className='room-details'>
-				<p className='text'>Room: {room}</p>
-				<p className='text'>Name: {username}</p>
-			</div>
-			<p className='text'>Points: {points}</p>
+		<div className='header-container'>
+			<p className='text text-lg'>Room: {room}</p>
+			<p className='text text-lg'>Name: {username}</p>
+			<p className='text text-lg'>Points: {points}</p>
 		</div>
 	);
 }
