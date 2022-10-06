@@ -13,9 +13,7 @@ function Whiteboard() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
-	const [answers, setAnswers] = useState(
-		JSON.parse(localStorage.getItem('answers'))
-	);
+	const [answers, setAnswers] = useState([]);
 	const questions = getQuestions();
 	const [modalOpen, setModalOpen] = useState(false);
 
@@ -29,7 +27,7 @@ function Whiteboard() {
 
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
-	}, []);
+	}, [answers]);
 
 	useEffect(() => {
 		socket.on('answerList', (answerList) => {
@@ -37,13 +35,14 @@ function Whiteboard() {
 			localStorage.setItem('answers', JSON.stringify([]));
 		});
 
-		socket.on('updateAnswers', (newAnswers) => {
-			setAnswers(newAnswers);
-			window.location.reload();
+		socket.on('positionUpdateResponse', ({ newAnswers }) => {
+			console.log('answer list updated');
+			setAnswers([...newAnswers]);
 		});
 
-		socket.on('positionUpdate', ({ answerId, position }) => {
-			positionUpdateHandler(answerId, position);
+		socket.on('updateActionItems', ({ actionItems }) => {
+			console.log('action items updated');
+			localStorage.setItem('actionItems', JSON.stringify(actionItems));
 		});
 	}, [socket, name, room]);
 
@@ -71,12 +70,7 @@ function Whiteboard() {
 				y: ui.y,
 			},
 		};
-		socket.emit('movedAnswer', payload);
-	};
-
-	const positionUpdateHandler = (answerId, position) => {
-		console.log('update position');
-		console.log(position);
+		socket.emit('positionUpdateRequest', payload);
 	};
 
 	const cardColor = (color) => {

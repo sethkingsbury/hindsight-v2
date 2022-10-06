@@ -13,6 +13,7 @@ const {
 	readyUser,
 } = require('./utils/users');
 const { addAnswers, getAnswers, updatePosition } = require('./utils/answers');
+const { addActionItem, getActionItems } = require('./utils/actionItems');
 
 const app = express();
 app.use(cors());
@@ -50,9 +51,15 @@ io.on('connection', (socket) => {
 		}
 	});
 
-	socket.on('movedAnswer', ({ room, answerId, position }) => {
+	socket.on('positionUpdateRequest', ({ room, answerId, position }) => {
 		const newAnswers = updatePosition(room, answerId, position);
-		io.to(room).emit('updateAnswers', { newAnswers });
+		io.to(room).emit('positionUpdateResponse', { newAnswers });
+	});
+
+	socket.on('actionItemSubmission', ({ room, actionItem }) => {
+		console.log('action item submitted');
+		const actionItems = addActionItem(room, actionItem);
+		io.to(room).emit('updateActionItems', { actionItems });
 	});
 
 	socket.on('disconnect', () => {
