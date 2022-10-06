@@ -80,8 +80,6 @@ video {
 
 html {
 	background: #11244d;
-	background-repeat: repeat;
-	background-size: contain;
 }
 
 .app {
@@ -167,6 +165,7 @@ html {
 .btn-md {
 	font-size: 2vh;
 	min-width: 22vw;
+	max-height: 8vh;
 	max-width: fit-content;
 }
 
@@ -459,4 +458,16 @@ input {
 		top: 40%;
 		left: -23%;
 	}
+}
+
+.form-ai {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 50px;
+}
+
+.input-ai {
+	font-size: 18px;
 }

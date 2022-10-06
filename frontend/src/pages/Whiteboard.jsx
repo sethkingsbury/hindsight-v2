@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Draggable from 'react-draggable';
 import ColorKey from '../components/ColorKey';
+import ActionItemModal from '../components/ActionItemModal';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
@@ -16,6 +17,7 @@ function Whiteboard() {
 		JSON.parse(localStorage.getItem('answers'))
 	);
 	const questions = getQuestions();
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const socket = io(ENDPOINT);
 
@@ -85,8 +87,9 @@ function Whiteboard() {
 
 	return (
 		<div className='container'>
+			{modalOpen && <ActionItemModal setOpenModal={setModalOpen} />}
 			<div className='header'>
-				<h2 className='text'>Categorize your answers</h2>
+				<h1 className='text prompt'>Categorize your answers</h1>
 			</div>
 			<div className='body'>
 				<div className='whiteboard-container'>
@@ -125,7 +128,14 @@ function Whiteboard() {
 				</div>
 			</div>
 			<div className='footer'>
-				<button className='btn btn-sm'>New Action Item</button>
+				<button
+					className=' btn btn-sm openModalBtn'
+					onClick={() => {
+						setModalOpen(true);
+					}}
+				>
+					Add Action Item
+				</button>
 				<button className='btn btn-sm' onClick={next}>
 					Next
 				</button>
