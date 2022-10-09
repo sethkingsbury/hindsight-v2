@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import Header from '../components/Header';
 const { io } = require('socket.io-client');
 
-const ENDPOINT = 'http://localhost:5000/';
-// const ENDPOINT = 'https://hindsight.herokuapp.com/';
+// const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function ActionItems() {

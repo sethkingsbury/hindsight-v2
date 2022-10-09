@@ -2,9 +2,9 @@ import { useState } from 'react';
 import '../styles/Modal.css';
 const { io } = require('socket.io-client');
 
-const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'http://localhost:5000/';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
-// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function ActionItemModal({ setOpenModal }) {
 	const room = localStorage.getItem('room');
