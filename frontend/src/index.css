@@ -389,8 +389,8 @@ input {
 .game-container {
 	position: relative;
 	left: 2.5vw;
-	height: 700px;
-	width: 650px;
+	height: 60vh;
+	width: 50vw;
 	background-image: url('./images/star.webp');
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -400,18 +400,18 @@ input {
 .game-btn {
 	transform: translate(-50%, -50%);
 	position: absolute;
-	font-size: 25px;
+	font-size: 3vh;
 	padding: 0.5em 1em;
 }
 
 .star-1 {
-	top: -3%;
-	left: 49%;
+	top: -5vh;
+	left: 24vw;
 }
 
 .star-2 {
-	top: 40%;
-	right: -45%;
+	top: 20vh;
+	right: -15vw;
 }
 
 .star-3 {
@@ -425,11 +425,11 @@ input {
 }
 
 .star-5 {
-	top: 40%;
+	top: 20vh;
 	left: -18%;
 }
 
-@media only screen and (max-width: 1280px) {
+@media only screen and (max-width: 1500px) {
 	.game-container {
 		position: relative;
 		top: 3vh;
