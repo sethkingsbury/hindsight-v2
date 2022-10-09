@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
+import Header from '../components/Header';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const { io } = require('socket.io-client');
 
 const ENDPOINT = 'http://localhost:5000/';
 // const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const socket = io(ENDPOINT);
 
 function Game() {
 	const navigate = useNavigate();
 	const [ready, setReady] = useState(false);
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
+	const points = localStorage.getItem('points');
 	const answers = JSON.parse(localStorage.getItem('answers'));
-
-	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		if (localStorage.getItem('reload') === '0') {
@@ -62,9 +63,30 @@ function Game() {
 		});
 	};
 
-	return (
+	return ready ? (
 		<div className='container'>
-			<div className='header'>header</div>
+			<div className='header'>
+				<Header
+					page='Select a question to answers'
+					room={room}
+					name={name}
+					points={points}
+				/>
+			</div>
+			<div className='body'>
+				<h1>Waiting for the rest of the team...</h1>
+			</div>
+		</div>
+	) : (
+		<div className='container'>
+			<div className='header'>
+				<Header
+					page='Select a question to answers'
+					room={room}
+					name={name}
+					points={points}
+				/>
+			</div>
 			<div className='body'>
 				<div className='game-container'>
 					<button className='btn game-btn star-1' onClick={() => submit(0)}>

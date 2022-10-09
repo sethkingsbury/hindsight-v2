@@ -100,20 +100,23 @@ html {
 
 .header {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
 	height: 10vh;
 	width: 95vw;
+	font-size: 3vh;
+	padding-top: 2vh;
 }
 
 .body {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
-	min-height: 80vh;
+	min-height: 71vh;
 	width: 100vw;
-	text-align: center;
+	padding-top: 5vh;
 }
 
 .footer {
@@ -123,6 +126,7 @@ html {
 	align-items: center;
 	height: 10vh;
 	width: 95vw;
+	padding-bottom: 2vh;
 }
 
 .text {
@@ -278,7 +282,7 @@ input {
 	justify-content: center;
 	align-items: center;
 	height: 600px;
-	width: 1100px;
+	width: 1200px;
 }
 
 .whiteboard {
@@ -297,11 +301,16 @@ input {
 
 .whiteboard-item {
 	display: inline-block;
+	text-align: center;
 	word-wrap: break-word;
 	color: #000;
 	font-size: 14px;
-	height: 100px;
-	width: 100px;
+	min-height: 80px;
+	min-width: 80px;
+	max-height: 100px;
+	max-width: 100px;
+	height: 10vh;
+	width: 10vh;
 	margin: 5px;
 	padding: 0.5em;
 	box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
@@ -379,8 +388,7 @@ input {
 
 .game-container {
 	position: relative;
-	top: 3vh;
-	right: 2.5%;
+	left: 2.5vw;
 	height: 700px;
 	width: 650px;
 	background-image: url('./images/star.webp');
@@ -470,4 +478,15 @@ input {
 
 .input-ai {
 	font-size: 18px;
+}
+
+.action-item {
+	background: #fcff56;
+	color: #11244d;
+	text-align: center;
+	font-size: max(3vh, 2vw);
+	margin: 0.5em;
+	padding: 0.5em;
+	width: 40%;
+	border-radius: 10px;
 }

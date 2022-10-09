@@ -7,7 +7,8 @@ const addActionItem = (room, actionItem) => {
 		: (roomActionItems = []);
 	roomActionItems.push(actionItem.trim());
 	actionItems[room] = roomActionItems;
-	return roomActionItems;
+
+	console.log(actionItems);
 };
 
 const getActionItems = (room) => {

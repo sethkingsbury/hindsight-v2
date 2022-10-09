@@ -35,6 +35,10 @@ io.on('connection', (socket) => {
 		}
 	});
 
+	socket.on('startGame', (room) => {
+		io.to(room).emit('startGameResponse', room);
+	});
+
 	socket.on('submitAnswers', ({ room, answers }) => {
 		addAnswers(room, answers);
 	});
@@ -53,13 +57,16 @@ io.on('connection', (socket) => {
 
 	socket.on('positionUpdateRequest', ({ room, answerId, position }) => {
 		const newAnswers = updatePosition(room, answerId, position);
-		io.to(room).emit('positionUpdateResponse', { newAnswers });
+		io.to(room).emit('positionUpdateResponse', newAnswers);
 	});
 
 	socket.on('actionItemSubmission', ({ room, actionItem }) => {
-		console.log('action item submitted');
-		const actionItems = addActionItem(room, actionItem);
-		io.to(room).emit('updateActionItems', { actionItems });
+		addActionItem(room, actionItem);
+	});
+
+	socket.on('actionItemRequest', (room) => {
+		const actionItemResponse = getActionItems(room);
+		io.to(room).emit('actionItemResponse', actionItemResponse);
 	});
 
 	socket.on('disconnect', () => {

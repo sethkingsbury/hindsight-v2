@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 import Draggable from 'react-draggable';
 import ColorKey from '../components/ColorKey';
 import ActionItemModal from '../components/ActionItemModal';
@@ -8,41 +9,40 @@ const { io } = require('socket.io-client');
 
 const ENDPOINT = 'http://localhost:5000/';
 // const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const socket = io(ENDPOINT);
 
 function Whiteboard() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
+	const points = localStorage.getItem('points');
 	const [answers, setAnswers] = useState([]);
 	const questions = getQuestions();
 	const [modalOpen, setModalOpen] = useState(false);
-
-	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
-
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
-	}, [answers]);
+		socket.emit('actionItemRequest', room);
+	}, []);
 
 	useEffect(() => {
+		socket.on('actionItemResponse', (actionItemResponse) => {
+			localStorage.setItem('actionitems', JSON.stringify(actionItemResponse));
+		});
+
 		socket.on('answerList', (answerList) => {
 			setAnswers(answerList);
 			localStorage.setItem('answers', JSON.stringify([]));
 		});
 
-		socket.on('positionUpdateResponse', ({ newAnswers }) => {
-			console.log('answer list updated');
+		socket.on('positionUpdateResponse', (newAnswers) => {
 			setAnswers([...newAnswers]);
-		});
-
-		socket.on('updateActionItems', ({ actionItems }) => {
-			console.log('action items updated');
-			localStorage.setItem('actionItems', JSON.stringify(actionItems));
+			window.location.reload();
 		});
 	}, [socket, name, room]);
 
@@ -83,7 +83,12 @@ function Whiteboard() {
 		<div className='container'>
 			{modalOpen && <ActionItemModal setOpenModal={setModalOpen} />}
 			<div className='header'>
-				<h1 className='text prompt'>Categorize your answers</h1>
+				<Header
+					title='Categorize your answers'
+					room={room}
+					name={name}
+					points={points}
+				/>
 			</div>
 			<div className='body'>
 				<div className='whiteboard-container'>

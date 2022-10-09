@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 import { createGameCode } from '../helpers/randomStr';
 import { FaArrowRight } from 'react-icons/fa';
 
@@ -17,6 +18,7 @@ function CreateRoom() {
 
 		localStorage.setItem('name', name);
 		localStorage.setItem('room', room);
+		localStorage.setItem('points', '0');
 		navigate(`/room`);
 	};
 
@@ -29,7 +31,9 @@ function CreateRoom() {
 
 	return (
 		<div className='container'>
-			<div className='header'></div>
+			<div className='header'>
+				<Header />
+			</div>
 			<div className='body'>
 				<h1 className='text prompt'>Enter your name</h1>
 				<form className='form' onSubmit={onSubmit}>

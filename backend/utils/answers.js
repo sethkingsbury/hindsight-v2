@@ -26,7 +26,7 @@ const updatePosition = (room, id, position) => {
 	answer['position'] = position;
 	roomAnswers[i] = answer;
 	answers[room] = roomAnswers;
-	return answers;
+	return roomAnswers;
 };
 
 module.exports = {

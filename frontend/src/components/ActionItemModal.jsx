@@ -3,15 +3,17 @@ import '../styles/Modal.css';
 const { io } = require('socket.io-client');
 
 const ENDPOINT = 'http://localhost:5000/';
+const socket = io(ENDPOINT);
 // const ENDPOINT = 'https://hindsight.herokuapp.com/';
 
 function ActionItemModal({ setOpenModal }) {
-	const socket = io(ENDPOINT);
 	const room = localStorage.getItem('room');
 	const [actionItem, setActionItem] = useState('');
+
 	const onSubmit = () => {
 		console.log('submitting action item');
 		socket.emit('actionItemSubmission', { room, actionItem });
+		window.location.reload();
 		setOpenModal(false);
 	};
 

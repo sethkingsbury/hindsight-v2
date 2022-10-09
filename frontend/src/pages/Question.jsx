@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AnswerItem from '../components/AnswerItem';
+import Header from '../components/Header';
 import { Answer } from '../data/answer';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +11,7 @@ const { io } = require('socket.io-client');
 
 const ENDPOINT = 'http://localhost:5000/';
 // const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const socket = io(ENDPOINT);
 
 function Question() {
 	const navigate = useNavigate();
@@ -17,14 +19,13 @@ function Question() {
 	const name = localStorage.getItem('name');
 	const qNum = JSON.parse(localStorage.getItem('qNum'));
 	const [points, setPoints] = useState(
-		JSON.parse(localStorage.getItem('answers'))
+		JSON.parse(localStorage.getItem('points'))
 	);
 	const [answers, setAnswers] = useState(
 		JSON.parse(localStorage.getItem('answers'))
 	);
 	const questions = getQuestions();
 	const [answer, setAnswer] = useState('');
-	const socket = io(ENDPOINT);
 
 	useEffect(() => {
 		socket.emit('joinRoom', { room, name });
@@ -43,6 +44,7 @@ function Question() {
 			newAnswers.push(newAnswer);
 			localStorage.setItem('answers', JSON.stringify(newAnswers));
 			setAnswers(newAnswers);
+			setPoints(points + 50);
 			setAnswer('');
 		}
 	};
@@ -63,12 +65,15 @@ function Question() {
 
 	const next = () => {
 		localStorage.setItem('answers', JSON.stringify(answers));
+		localStorage.setItem('points', JSON.stringify(points));
 		navigate(`/game`);
 	};
 
 	return (
 		<div className='container'>
-			<div className='header'>Header</div>
+			<div className='header'>
+				<Header room={room} name={name} points={points} />
+			</div>
 			<div className='body'>
 				<div className='question-box'>
 					<div className='room-header'>
