@@ -11,6 +11,8 @@ const {
 	userLeave,
 	getUsers,
 	readyUser,
+	addPoints,
+	getPointsTotal,
 } = require('./utils/users');
 const { addAnswers, getAnswers, updatePosition } = require('./utils/answers');
 const { addActionItem, getActionItems } = require('./utils/actionItems');
@@ -39,8 +41,9 @@ io.on('connection', (socket) => {
 		io.to(room).emit('startGameResponse', room);
 	});
 
-	socket.on('submitAnswers', ({ room, answers }) => {
+	socket.on('submitAnswers', ({ room, name, points, answers }) => {
 		addAnswers(room, answers);
+		addPoints(name, points);
 	});
 
 	socket.on('getAnswers', ({ room }) => {
@@ -50,8 +53,10 @@ io.on('connection', (socket) => {
 
 	socket.on('ready', ({ room, name }) => {
 		const allReady = readyUser(room, name);
+		const total = getPointsTotal(room);
+		console.log(total);
 		if (allReady) {
-			io.to(room).emit('toWhiteboard');
+			io.to(room).emit('toWhiteboard', total);
 		}
 	});
 

@@ -1,7 +1,7 @@
 const users = [];
 
-const userJoin = (id, name, room, ready = false) => {
-	const user = { id, name, room, ready };
+const userJoin = (id, name, room, ready = false, points = 0) => {
+	const user = { id, name, room, ready, points };
 	users.push(user);
 	return user;
 };
@@ -44,10 +44,29 @@ const readyUser = (room, name) => {
 	return allReady;
 };
 
+const addPoints = (name, points) => {
+	const i = users.findIndex((user) => user.name == name);
+	let user = users[i];
+	user['points'] = parseInt(points);
+	users[i] = user;
+};
+
+const getPointsTotal = (room) => {
+	roomUsers = users.filter((user) => user.room === room);
+	console.log(roomUsers);
+	let total = 0;
+	for (let i = 0; i < roomUsers.length; i++) {
+		total += roomUsers[i].points;
+	}
+	return total;
+};
+
 module.exports = {
 	userJoin,
 	getUser,
 	userLeave,
 	getUsers,
 	readyUser,
+	addPoints,
+	getPointsTotal,
 };

@@ -7,8 +7,8 @@ import ActionItemModal from '../components/ActionItemModal';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Whiteboard() {

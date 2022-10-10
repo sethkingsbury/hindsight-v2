@@ -489,3 +489,7 @@ input {
 	width: 40%;
 	border-radius: 10px;
 }
+
+.summary {
+	margin-bottom: 20px;
+}

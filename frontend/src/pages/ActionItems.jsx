@@ -2,8 +2,8 @@ import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function ActionItems() {
@@ -12,6 +12,7 @@ function ActionItems() {
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
 	const points = localStorage.getItem('points');
+	const pointsTotal = parseInt(localStorage.getItem('total'));
 	const actionItems = JSON.parse(localStorage.getItem('actionitems'));
 
 	const onSubmit = () => {
@@ -21,14 +22,12 @@ function ActionItems() {
 	return (
 		<div className='container'>
 			<div className='header'>
-				<Header
-					title='Categorize your answers'
-					room={room}
-					name={name}
-					points={points}
-				/>
+				<Header room={room} name={name} points={points} />
 			</div>
 			<div className='body'>
+				<div className='summary'>
+					<h1>Final Team Score : {pointsTotal}</h1>
+				</div>
 				{actionItems.map((actionItem) => {
 					return (
 						<div key={actionItem} className='action-item'>

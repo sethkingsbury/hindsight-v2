@@ -6,8 +6,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Game() {
@@ -26,7 +26,8 @@ function Game() {
 
 		socket.emit('joinRoom', { room, name });
 
-		socket.on('toWhiteboard', () => {
+		socket.on('toWhiteboard', (total) => {
+			localStorage.setItem('total', JSON.stringify(total));
 			localStorage.setItem('reload', '0');
 			navigate(`/whiteboard`);
 		});
@@ -41,7 +42,7 @@ function Game() {
 		setReady(true);
 		const randomTimeout = Math.random() * 1000;
 		setTimeout(() => {
-			socket.emit('submitAnswers', { room, answers });
+			socket.emit('submitAnswers', { room, name, points, answers });
 			socket.emit('ready', { room, name });
 		}, randomTimeout);
 	};
