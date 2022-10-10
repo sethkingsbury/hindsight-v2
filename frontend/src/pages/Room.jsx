@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 const { io } = require('socket.io-client');
 
-const ENDPOINT = 'localhost:5000';
-// const ENDPOINT = 'https://hindsight.herokuapp.com/';
+// const ENDPOINT = 'localhost:5000';
+const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Room() {
