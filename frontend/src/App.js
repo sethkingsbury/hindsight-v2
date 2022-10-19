@@ -8,7 +8,6 @@ import Room from './pages/Room';
 import Question from './pages/Question';
 import Whiteboard from './pages/Whiteboard';
 import ActionItems from './pages/ActionItems';
-import Summary from './pages/Summary';
 import Game from './pages/Game';
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
 							<Route path='/question' element={<Question />} />
 							<Route path='/whiteboard' element={<Whiteboard />} />
 							<Route path='/actionitems' element={<ActionItems />} />
-							<Route path='/summary' element={<Summary />} />
 						</Routes>
 					</div>
 				</div>
