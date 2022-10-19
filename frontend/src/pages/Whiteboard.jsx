@@ -5,6 +5,7 @@ import Draggable from 'react-draggable';
 import ColorKey from '../components/ColorKey';
 import ActionItemModal from '../components/ActionItemModal';
 import { getQuestions } from '../data/questions';
+import { FaRedo } from 'react-icons/fa';
 const { io } = require('socket.io-client');
 
 const ENDPOINT = 'http://localhost:5000/';
@@ -54,6 +55,10 @@ function Whiteboard() {
 		navigate(`/actionItems`);
 	};
 
+	const refreshPage = () => {
+		window.location.reload(false);
+	};
+
 	// Whiteboard item Tracking
 	const [position, setPosition] = useState({ x: 0, y: 0 });
 
@@ -96,6 +101,9 @@ function Whiteboard() {
 			</div>
 			<div className='body'>
 				<div className='whiteboard-container'>
+					<button className='refresh-whiteboard' onClick={refreshPage}>
+						<FaRedo />
+					</button>
 					<div className='whiteboard'>
 						{answers.map((answer) => {
 							return (
