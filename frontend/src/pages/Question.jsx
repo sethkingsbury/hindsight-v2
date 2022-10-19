@@ -17,7 +17,7 @@ function Question() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
-	const qNum = 0;
+	const qNum = localStorage.getItem('qNum');
 	const [points, setPoints] = useState(
 		JSON.parse(localStorage.getItem('points'))
 	);
