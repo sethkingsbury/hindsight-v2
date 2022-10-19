@@ -3,18 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'localhost:5000';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'localhost:5000';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Room() {
 	const navigate = useNavigate();
-	const room = localStorage.getItem('room');
-	const name = localStorage.getItem('name');
-	const points = localStorage.getItem('points');
+	const [room, setRoom] = useState(localStorage.getItem('room'));
+	const [name, setName] = useState(localStorage.getItem('name'));
+	const [points, setPoints] = useState(0);
 	const [users, setUsers] = useState([]);
 
 	useEffect(() => {
+		if (!room) {
+			navigate('/');
+		}
+
 		socket.emit('joinRoom', { room, name });
 
 		socket.on('userList', (users) => {

@@ -7,8 +7,8 @@ import ActionItemModal from '../components/ActionItemModal';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Whiteboard() {
@@ -21,10 +21,15 @@ function Whiteboard() {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	useEffect(() => {
+		if (!room) {
+			navigate('/');
+		}
+
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();
 		}
+
 		socket.emit('joinRoom', { room, name });
 		socket.emit('getAnswers', { room });
 		socket.emit('actionItemRequest', room);

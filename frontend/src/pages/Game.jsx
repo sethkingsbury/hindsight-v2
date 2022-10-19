@@ -6,8 +6,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Game() {
@@ -19,6 +19,10 @@ function Game() {
 	const answers = JSON.parse(localStorage.getItem('answers'));
 
 	useEffect(() => {
+		if (!room) {
+			navigate('/');
+		}
+
 		if (localStorage.getItem('reload') === '0') {
 			localStorage.setItem('reload', '1');
 			window.location.reload();

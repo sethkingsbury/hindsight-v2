@@ -9,15 +9,15 @@ import { FaArrowRight } from 'react-icons/fa';
 import { getQuestions } from '../data/questions';
 const { io } = require('socket.io-client');
 
-// const ENDPOINT = 'http://localhost:5000/';
-const ENDPOINT = 'https://hindsight.herokuapp.com/';
+const ENDPOINT = 'http://localhost:5000/';
+// const ENDPOINT = 'https://hindsight.herokuapp.com/';
 const socket = io(ENDPOINT);
 
 function Question() {
 	const navigate = useNavigate();
 	const room = localStorage.getItem('room');
 	const name = localStorage.getItem('name');
-	const qNum = JSON.parse(localStorage.getItem('qNum'));
+	const qNum = 0;
 	const [points, setPoints] = useState(
 		JSON.parse(localStorage.getItem('points'))
 	);
@@ -28,8 +28,12 @@ function Question() {
 	const [answer, setAnswer] = useState('');
 
 	useEffect(() => {
+		if (!room) {
+			navigate('/');
+		}
+
 		socket.emit('joinRoom', { room, name });
-	}, [socket, room, name]);
+	}, [room, name]);
 
 	const onChange = (e) => {
 		setAnswer(e.target.value);
@@ -70,50 +74,52 @@ function Question() {
 	};
 
 	return (
-		<div className='container'>
-			<div className='header'>
-				<Header room={room} name={name} points={points} />
-			</div>
-			<div className='body'>
-				<div className='question-box'>
-					<div className='room-header'>
-						<h1 className='text prompt'>{questions[qNum].question}</h1>
+		room && (
+			<div className='container'>
+				<div className='header'>
+					<Header room={room} name={name} points={points} />
+				</div>
+				<div className='body'>
+					<div className='question-box'>
+						<div className='room-header'>
+							<h1 className='text prompt'>{questions[qNum].question}</h1>
+						</div>
+
+						<form className='q-form' onSubmit={onSubmit}>
+							<input
+								className='q-form-in'
+								type='text'
+								name='answer'
+								value={answer}
+								onChange={onChange}
+							/>
+							<button className='btn-form-sm'>
+								<FaArrowRight />
+							</button>
+						</form>
 					</div>
-
-					<form className='q-form' onSubmit={onSubmit}>
-						<input
-							className='q-form-in'
-							type='text'
-							name='answer'
-							value={answer}
-							onChange={onChange}
-						/>
-						<button className='btn-form-sm'>
-							<FaArrowRight />
-						</button>
-					</form>
+					<div className='answer-box'>
+						{answers
+							.filter((x) => x.qNum === qNum)
+							.map((answer) => {
+								return (
+									<AnswerItem
+										key={answer.answer}
+										answer={answer.answer}
+										color={questions[qNum]['color']}
+									/>
+								);
+							})}
+					</div>
 				</div>
-				<div className='answer-box'>
-					{answers
-						.filter((x) => x.qNum === qNum)
-						.map((answer) => {
-							return (
-								<AnswerItem
-									key={answer.answer}
-									answer={answer.answer}
-									color={questions[qNum]['color']}
-								/>
-							);
-						})}
+
+				<div className='footer'>
+					<button className='btn btn-sm' onClick={next}>
+						Next
+					</button>
 				</div>
 			</div>
-
-			<div className='footer'>
-				<button className='btn btn-sm' onClick={next}>
-					Next
-				</button>
-			</div>
-		</div>
+		)
 	);
 }
 

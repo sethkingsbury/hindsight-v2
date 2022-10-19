@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 const { io } = require('socket.io-client');
@@ -15,33 +16,41 @@ function ActionItems() {
 	const pointsTotal = parseInt(localStorage.getItem('total'));
 	const actionItems = JSON.parse(localStorage.getItem('actionitems'));
 
+	useEffect(() => {
+		if (!room) {
+			navigate('/');
+		}
+	}, []);
+
 	const onSubmit = () => {
 		navigate('/');
 	};
 
 	return (
-		<div className='container'>
-			<div className='header'>
-				<Header room={room} name={name} points={points} />
-			</div>
-			<div className='body'>
-				<div className='summary'>
-					<h1>Final Team Score : {pointsTotal}</h1>
+		room && (
+			<div className='container'>
+				<div className='header'>
+					<Header room={room} name={name} points={points} />
 				</div>
-				{actionItems.map((actionItem) => {
-					return (
-						<div key={actionItem} className='action-item'>
-							{actionItem}
-						</div>
-					);
-				})}
+				<div className='body'>
+					<div className='summary'>
+						<h1>Final Team Score : {pointsTotal}</h1>
+					</div>
+					{actionItems.map((actionItem) => {
+						return (
+							<div key={actionItem} className='action-item'>
+								{actionItem}
+							</div>
+						);
+					})}
+				</div>
+				<div className='footer'>
+					<button className='btn btn-sm' onClick={onSubmit}>
+						Finish
+					</button>
+				</div>
 			</div>
-			<div className='footer'>
-				<button className='btn btn-sm' onClick={onSubmit}>
-					Finish
-				</button>
-			</div>
-		</div>
+		)
 	);
 }
 
