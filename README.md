@@ -6,6 +6,11 @@ A collaborative scrum retrospective tool
 
 In the project directory, you can run:
 
+
+### `npm install`
+
+installs required dependecies
+
 ### `npm run client`
 
 Runs the front end of the app in the development mode.\
