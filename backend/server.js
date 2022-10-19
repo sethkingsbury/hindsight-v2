@@ -23,7 +23,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: 'https://hindsight.herokuapp.com/',
+		origin: '*',
 		methods: ['GET', 'POST'],
 	},
 });
